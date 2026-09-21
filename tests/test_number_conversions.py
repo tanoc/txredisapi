@@ -53,10 +53,10 @@ class TestNumberConversions(unittest.TestCase):
                 self.assertEqual(result, v)
             else:
                 if isinstance(k, float):
-                    expected = format(k, "f")
+                    expected = format(k, "f").encode()
                 else:
-                    expected = str(k)
-                self.assertIsInstance(result, str)
+                    expected = str(k).encode()
+                self.assertIsInstance(result, bytes)
                 self.assertEqual(result, expected)
 
     @defer.inlineCallbacks
@@ -80,8 +80,8 @@ class TestNoNumberConversions(TestNumberConversions):
             'b': '2'
         }
         expected = {
-            'a': '1',
-            'b': '2'
+            b'a': b'1',
+            b'b': b'2'
         }
         yield self.db.hmset(self.TEST_KEY, d)
         r = yield self.db.hgetall(self.TEST_KEY)

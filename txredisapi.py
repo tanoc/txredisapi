@@ -446,6 +446,8 @@ class BaseRedisProtocol(LineReceiver):
             self.replyReceived(el)
 
     def tryConvertData(self, data):
+        if not self.convertNumbers:
+            return data
         # The hiredis reader implicitly returns integers
         if isinstance(data, int):
             return data
